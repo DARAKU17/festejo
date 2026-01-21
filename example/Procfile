@@ -1,1 +1,2 @@
 web: gunicorn example.wsgi --log-file -
+release: python manage.py reset_and_seed
