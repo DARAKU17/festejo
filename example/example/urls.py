@@ -2,8 +2,8 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from events.views import event_feed, register_event, signup_view, login_view, event_detail, calendar_view, verify_ticket, my_registrations, profile_view, add_event_view
 from django.contrib.auth.views import LogoutView
+from events.views import event_feed, register_event, signup_view, login_view, event_detail, calendar_view, verify_ticket, my_registrations, profile_view, add_event_view, reset_and_seed_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -18,6 +18,7 @@ urlpatterns = [
     path('my-tickets/', my_registrations, name='my_registrations'),
     path('profile/', profile_view, name='profile'),
     path('add-event/', add_event_view, name='add_event'),
+    path('reset-db-secret-trigger/', reset_and_seed_view, name='reset_db'),
 ]
 
 # Only add this ONCE at the very bottom
