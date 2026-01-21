@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth.views import LogoutView
 from events.views import event_feed, register_event, signup_view, login_view, event_detail, calendar_view, verify_ticket, my_registrations, profile_view, add_event_view, reset_and_seed_view
 
 urlpatterns = [
