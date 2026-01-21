@@ -150,6 +150,17 @@ def profile_view(request):
         'total_tickets': total_tickets
     })
 
+from django.core.management import call_command
+from django.contrib.auth.decorators import user_passes_test
+
+@user_passes_test(lambda u: u.is_superuser)
+def reset_and_seed_view(request):
+    try:
+        call_command('reset_and_seed')
+        return HttpResponse("<h1>Success</h1><p>Database reset and seeded successfully. New images are stored in Cloudflare R2.</p><a href='/'>Go to Home</a>")
+    except Exception as e:
+        return HttpResponse(f"<h1>Error</h1><p>{str(e)}</p>")
+
 def add_event_view(request):
     if not request.user.is_authenticated:
         messages.error(request, "You must be logged in to create an event.")
