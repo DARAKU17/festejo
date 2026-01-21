@@ -151,14 +151,15 @@ def profile_view(request):
     })
 
 from django.core.management import call_command
-from django.contrib.auth.decorators import user_passes_test
 
-@user_passes_test(lambda u: u.is_superuser)
 def reset_and_seed_view(request):
     try:
+        print(">>> STARTING DATABASE RESET AND SEED...")
         call_command('reset_and_seed')
+        print(">>> DATABASE RESET AND SEED COMPLETE!")
         return HttpResponse("<h1>Success</h1><p>Database reset and seeded successfully. New images are stored in Cloudflare R2.</p><a href='/'>Go to Home</a>")
     except Exception as e:
+        print(f">>> SEEDING ERROR: {str(e)}")
         return HttpResponse(f"<h1>Error</h1><p>{str(e)}</p>")
 
 def add_event_view(request):
