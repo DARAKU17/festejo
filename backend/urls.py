@@ -1,23 +1,25 @@
-"""
-URL configuration for backend project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/6.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+from events.views import event_feed, register_event, signup_view, login_view, event_detail, calendar_view, verify_ticket, my_registrations, profile_view, add_event_view, reset_and_seed_view
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path('admin/', admin.site.urls),
+    path('', event_feed, name='home'),
+    path('register/<str:event_id>/', register_event, name='register_event'),
+    path('signup/', signup_view, name='signup'),
+    path('logout/', LogoutView.as_view(next_page='home'), name='logout'),
+    path('login/', login_view, name='login'),
+    path('event/<str:event_id>/', event_detail, name='event_detail'),
+    path('calendar/', calendar_view, name='calendar'),
+    path('verify/<str:ticket_id>/', verify_ticket, name='verify_ticket'),
+    path('my-tickets/', my_registrations, name='my_registrations'),
+    path('profile/', profile_view, name='profile'),
+    path('add-event/', add_event_view, name='add_event'),
+    path('reset-db-secret-trigger/', reset_and_seed_view, name='reset_db'),
 ]
+
+# Only add this ONCE at the very bottom
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
